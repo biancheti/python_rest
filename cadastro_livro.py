@@ -44,6 +44,5 @@ def deletar(conexao, id):
     cursor = conexao.cursor()
 
     sql_delete = "delete from livro where id =  %s"
-    dados = (id)
-    cursor.execute(sql_delete, id)
+    cursor.execute(sql_delete, [id])
     conexao.commit()

@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from conexao import conecta_db
 from cadastro_livro import inserir, alterar, consultar, consultar_por_id, deletar, inserir
+from cadastro_autor import listar_autores
 
 app = Flask(__name__)
 
@@ -36,6 +37,12 @@ def listar_todos():
     conexao = conecta_db()
     livros = consultar(conexao)
     return jsonify(livros)
+
+@app.route("/autores", methods=["GET"])
+def listar_todos_autores():
+    conexao = conecta_db()
+    autores = listar_autores(conexao)
+    return jsonify(autores)
 
 if __name__ == '__main__':
     app.run(debug=True)
