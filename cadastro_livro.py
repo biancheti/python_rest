@@ -33,7 +33,7 @@ def alterar(conexao, id, nome):
 def consultar_por_id(conexao, id):
     cursor = conexao.cursor()
     cursor.execute("select id,nome from livro where id = " +id)
-    registros = cursor.fetchone()
+    registro = cursor.fetchone()
     item = {
         "id": registro[0],
         "nome": registro[1]
