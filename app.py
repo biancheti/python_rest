@@ -1,11 +1,10 @@
 from flask import Flask, jsonify, request
+from conexao import conecta_db
 
 from cadastro_autor import listar_autores, inserir_autor_db, alterar_autor_db, deletar_autor_db, consultar_autor_por_id_db
-from cadastro_livro import (alterar, consultar, consultar_por_id, deletar,
-                            inserir)
-from conexao import conecta_db
-from cadastro_usuario import (listar_usuarios, inserir_usuario_db, alterar_usuario_db, deletar_usuario_db, consultar_usuario_por_id,
-verificar_login)
+from cadastro_editora import listar_editoras, inserir_editora_db, alterar_editora_db, deletar_editora_db, consultar_editora_por_id_db
+from cadastro_livro import (alterar, consultar, consultar_por_id, deletar, inserir)
+from cadastro_usuario import (listar_usuarios, inserir_usuario_db, alterar_usuario_db, deletar_usuario_db, consultar_usuario_por_id, verificar_login)
 
 app = Flask(__name__)
 
@@ -78,6 +77,41 @@ def deletar_autor(id):
 def consultar_autor(id):
    conexao = conecta_db()
    autor = consultar_autor_por_id_db(conexao,id)
+   return jsonify(autor)
+
+@app.route("/editoras", methods=["GET"])
+def listar_todos_editoras():
+    conexao = conecta_db()
+    editoras = listar_editoras(conexao)
+    return jsonify(editoras)
+
+@app.route("/editoras", methods=["POST"])
+def inserir_editora():
+    conexao = conecta_db()
+    data = request.get_json()
+    nome = data["nome"]
+    inserir_editora_db(conexao, nome)
+    print(nome)
+    return jsonify(data)
+
+@app.route("/editoras/<int:id>", methods=["PUT"])
+def alterar_editora(id):
+    conexao = conecta_db()
+    data = request.get_json()
+    nome=data["nome"]
+    alterar_editora_db(conexao, int(id), nome)
+    return jsonify(data)
+
+@app.route("/editoras/<int:id>", methods=["DELETE"])
+def deletar_editora(id):
+    conexao = conecta_db() 
+    deletar_editora_db(conexao, id)
+    return jsonify({"message": "Editora deletada com sucesso!" })
+
+@app.route("/editoras/<int:id>", methods=["GET"])
+def consultar_editora(id):
+   conexao = conecta_db()
+   autor = consultar_editora_por_id_db(conexao,id)
    return jsonify(autor)
 
 @app.route("/usuarios", methods=["GET"])
