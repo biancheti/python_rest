@@ -5,6 +5,7 @@ def listar_autores(conexao):
     cursor = conexao.cursor()
     cursor.execute("select id,nome from autor")
     registros = cursor.fetchall()
+    
     for registro in registros:
         item = {
             "id": registro[0],
